@@ -1,6 +1,6 @@
 # bluesky_playground
 
-Initially just a use of the atproto SDK to post a message using an account whose credentials are hidden in a .env file.
+Initially just a use of the atproto SDK to post a Bluesky message using an account whose credentials are hidden in a .env file.
 Eventually, I might make something of this.
 Ideas include: a Git Action for a repo.  
 A quote a day post generator.
