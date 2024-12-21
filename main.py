@@ -3,12 +3,6 @@ from atproto import Client
 from dotenv import load_dotenv
 
 
-def varstate(varname):
-    print(varname, locals())
-    if varname in locals():
-        print(locals()[varname])
-
-
 def poster(text_list):
     client = Client()
     client.login(bsky_url, bsky_pwd)
