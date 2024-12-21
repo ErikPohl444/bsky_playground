@@ -59,33 +59,44 @@ def threader(text):
     newtext = ''
     limit = 200
     result = []
-    if len(text) > 200:
+    if len(text) > 200 or text.count('\n') > 0:
         limit = limit - len(" 100/100") - 1
-        tot_msgs = len(text) // limit
-        if len(text) % limit > 0:
-            tot_msgs += 1
+        if text.count('\n') > 0:
+            subtexts = text.split('\n')
+            # tot_msgs = text.count('\n')
+            tot_msgs = 0
+        else:
+            subtexts = [text]
+            tot_msgs = 0
+        for subtext in subtexts:
+            tot_msgs += len(subtext) // limit
+            if len(text) % limit > 0:
+                tot_msgs += 1
     msgs = 0
     while len(text) > limit:
         remainder = text[limit:]
         text = text[:limit]
-        if text[len(text)-1] != ' ':
+        if '\n' in text:
+            text, newremainder = text.split('\n',1)
+            remainder = newremainder + remainder
+        elif text[len(text)-1] != ' ':
             newremainder = text[text.rfind(' '):]
             text = text[:text.rfind(' ')]
             remainder = newremainder + remainder
         msgs += 1
-        print("msgs", msgs, f"{text} msg {msgs}/{tot_msgs}")
+        # print("msgs", msgs, f"{text} msg {msgs}/{tot_msgs}")
         result.append(f"{text} msg {msgs}/{tot_msgs}")
         newtext = newtext + text
         text = remainder
 
     if msgs > 0 and text:
         msgs += 1
-        print("msgs", msgs, f"{text} msg {msgs}/{tot_msgs}")
+        # print("msgs", msgs, f"{text} msg {msgs}/{tot_msgs}")
         result.append(f"{text} msg {msgs}/{tot_msgs}")
         newtext = newtext + text
-        print("equals?", len(newtext), len(orig))
+        # print("equals?", len(newtext), len(orig))
     else:
-        print("msg", text)
+        # print("msg", text)
         result.append(text)
     return result
 
@@ -101,16 +112,11 @@ if __name__ == '__main__':
         print(x)
     for x in threader(''):
         print(x)
-    longmsg = ("TEST MSG ONLY: This is a test of some simple functionality I wrote "
-               "to split a message into units which fit within the Bluesky post limit.  "
-               "It is trying to do multiple things at one time, so bear with me if it "
-               "doesn't work this time!  Here are some things it is trying to do: split "
-               "a long message into multiple messages with msg count indicators - this "
-               "has mostly been tested, and i'm satisfied with it for now 2 post message "
-               "thread as a thread including reply to.  this is untested, so what you are "
-               "seeing _is_ the test.  first time use of reply_to, so fingers crossed!")
+    longmsg = ("TEST MSG ONLY: What I'm testing out now is a forced split \n1. imagine you want to write several points, but you don't want a post to contain each distinct point"
+               "\n2. this helps in post clarity\n3. allowing a splitter routine to split by post length and a forced split would permit greater control "
+               "over how your posts are presented when they are dropped into Bluesky, even if some of the force splits are actually longer than the Bluesky post limit.")
     print(len(longmsg))
     for x in threader(longmsg):
-        print(x)
-    # do this with a new message than the one above only
-    # poster(threader(longmsg))
+        print(f"{len(x)}: {x}")
+    # do this with a new message than any previously posted message
+    poster(threader(longmsg))
