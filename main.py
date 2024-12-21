@@ -77,7 +77,7 @@ def threader(text):
         remainder = text[limit:]
         text = text[:limit]
         if '\n' in text:
-            text, newremainder = text.split('\n',1)
+            text, newremainder = text.split('\n', 1)
             remainder = newremainder + remainder
         elif text[len(text)-1] != ' ':
             newremainder = text[text.rfind(' '):]
@@ -112,9 +112,13 @@ if __name__ == '__main__':
         print(x)
     for x in threader(''):
         print(x)
-    longmsg = ("TEST MSG ONLY: What I'm testing out now is a forced split \n1. imagine you want to write several points, but you don't want a post to contain each distinct point"
-               "\n2. this helps in post clarity\n3. allowing a splitter routine to split by post length and a forced split would permit greater control "
-               "over how your posts are presented when they are dropped into Bluesky, even if some of the force splits are actually longer than the Bluesky post limit.")
+    longmsg = ("TEST MSG ONLY: What I'm testing out now is a forced split \n1. imagine you "
+               "want to write several points, but you don't want a post to contain each "
+               "distinct point"
+               "\n2. this helps in post clarity\n3. allowing a splitter routine to split "
+               "by post length and a forced split would permit greater control "
+               "over how your posts are presented when they are dropped into Bluesky, even "
+               "if some of the force splits are actually longer than the Bluesky post limit.")
     print(len(longmsg))
     for x in threader(longmsg):
         print(f"{len(x)}: {x}")
