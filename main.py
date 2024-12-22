@@ -50,25 +50,24 @@ def poster(text_list):
 
 def threader(text):
     # newtext = ''
-    limit = 300
+    message_character_limit = 300
     result = []
     if len(text) > 300 or text.count('\n') > 0:
-        limit = limit - len(" 100/100") - 1
+        message_character_limit = message_character_limit - len(" 100/100") - 1
+        total_messages = 0
         if text.count('\n') > 0:
             subtexts = text.split('\n')
-            # tot_msgs = text.count('\n')
-            tot_msgs = 0
+            # total_messages = text.count('\n')
         else:
             subtexts = [text]
-            tot_msgs = 0
         for subtext in subtexts:
-            tot_msgs += len(subtext) // limit
-            if len(text) % limit > 0:
-                tot_msgs += 1
+            total_messages += len(subtext) // message_character_limit
+            if len(text) % message_character_limit > 0:
+                total_messages += 1
     msgs = 0
-    while len(text) > limit or '\n' in text:
-        remainder = text[limit:]
-        text = text[:limit]
+    while len(text) > message_character_limit or '\n' in text:
+        remainder = text[message_character_limit:]
+        text = text[:message_character_limit]
         if '\n' in text:
             text, newremainder = text.split('\n', 1)
             remainder = newremainder + remainder
@@ -77,15 +76,15 @@ def threader(text):
             text = text[:text.rfind(' ')]
             remainder = newremainder + remainder
         msgs += 1
-        # print("msgs", msgs, f"{text} msg {msgs}/{tot_msgs}")
-        result.append(f"{text} msg {msgs}/{tot_msgs}")
+        # print("msgs", msgs, f"{text} msg {msgs}/{total_messages}")
+        result.append(f"{text} msg {msgs}/{total_messages}")
         # newtext = newtext + text
         text = remainder
 
     if msgs > 0 and text:
         msgs += 1
-        # print("msgs", msgs, f"{text} msg {msgs}/{tot_msgs}")
-        result.append(f"{text} msg {msgs}/{tot_msgs}")
+        # print("msgs", msgs, f"{text} msg {msgs}/{total_messages}")
+        result.append(f"{text} msg {msgs}/{total_messages}")
         # newtext = newtext + text
         # print("equals?", len(newtext), len(orig))
     else:
