@@ -49,11 +49,10 @@ def poster(text_list):
 
 
 def threader(text):
-    orig = text
-    newtext = ''
-    limit = 200
+    # newtext = ''
+    limit = 300
     result = []
-    if len(text) > 200 or text.count('\n') > 0:
+    if len(text) > 300 or text.count('\n') > 0:
         limit = limit - len(" 100/100") - 1
         if text.count('\n') > 0:
             subtexts = text.split('\n')
@@ -67,7 +66,7 @@ def threader(text):
             if len(text) % limit > 0:
                 tot_msgs += 1
     msgs = 0
-    while len(text) > limit:
+    while len(text) > limit or '\n' in text:
         remainder = text[limit:]
         text = text[:limit]
         if '\n' in text:
@@ -80,14 +79,14 @@ def threader(text):
         msgs += 1
         # print("msgs", msgs, f"{text} msg {msgs}/{tot_msgs}")
         result.append(f"{text} msg {msgs}/{tot_msgs}")
-        newtext = newtext + text
+        # newtext = newtext + text
         text = remainder
 
     if msgs > 0 and text:
         msgs += 1
         # print("msgs", msgs, f"{text} msg {msgs}/{tot_msgs}")
         result.append(f"{text} msg {msgs}/{tot_msgs}")
-        newtext = newtext + text
+        # newtext = newtext + text
         # print("equals?", len(newtext), len(orig))
     else:
         # print("msg", text)
