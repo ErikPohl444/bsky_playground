@@ -1,7 +1,7 @@
 import os
 from atproto import Client
 from dotenv import load_dotenv
-
+from setup_logging import logger
 
 def poster(text_list):
     client = Client()
@@ -49,7 +49,8 @@ def poster(text_list):
 
 
 def threader(text):
-    # newtext = ''
+    orig = text
+    newtext = ''
     message_character_limit = 300
     result = []
     if len(text) > 300 or text.count('\n') > 0:
@@ -57,7 +58,6 @@ def threader(text):
         total_messages = 0
         if text.count('\n') > 0:
             subtexts = text.split('\n')
-            # total_messages = text.count('\n')
         else:
             subtexts = [text]
         for subtext in subtexts:
@@ -76,19 +76,18 @@ def threader(text):
             text = text[:text.rfind(' ')]
             remainder = newremainder + remainder
         msgs += 1
-        # print("msgs", msgs, f"{text} msg {msgs}/{total_messages}")
+        logger.info(f"msgs: {msgs}, {text} msg {msgs}/{total_messages}")
         result.append(f"{text} msg {msgs}/{total_messages}")
-        # newtext = newtext + text
         text = remainder
 
     if msgs > 0 and text:
         msgs += 1
-        # print("msgs", msgs, f"{text} msg {msgs}/{total_messages}")
+        logger.info(f"msgs: {msgs} {text} msg {msgs}/{total_messages}")
         result.append(f"{text} msg {msgs}/{total_messages}")
-        # newtext = newtext + text
-        # print("equals?", len(newtext), len(orig))
+        newtext = newtext + text
+        logger.info(f"equals? {len(newtext)} and {len(orig)}")
     else:
-        # print("msg", text)
+        logger.info(f"msg {text}")
         result.append(text)
     return result
 
