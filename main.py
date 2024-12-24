@@ -1,9 +1,13 @@
 import os
+import random
+
 from atproto import Client
 from dotenv import load_dotenv
 from setup_logging import logger
 
+
 def poster(text_list):
+    retlist = []
     client = Client()
     client.login(bsky_url, bsky_pwd)
     type_field = "py_type"
@@ -12,9 +16,10 @@ def poster(text_list):
     if len(text_list) < 1:
         raise ValueError
     if len(text_list) == 1:
-        client.send_post(text_list[0])
+        return [client.send_post(text_list[0])]
     if len(text_list) > 1:
         post = client.send_post(text_list[0])
+        retlist.append(post)
         root_dict = {
             "root": {
                 "cid": post.cid,
@@ -46,6 +51,55 @@ def poster(text_list):
                     "input_type": input_type
                 }
             }
+    return retlist
+
+
+def treer():
+    decorations = [
+        'tinsel', 'candle', 'apple', 'finial', 'snowflake', 'icicle'
+    ]
+    client = Client()
+    client.login(bsky_url, bsky_pwd)
+    type_field = "py_type"
+    type_value = "com.atproto.repo.strongRef"
+    input_type = "dict"
+    root_post = client.send_post(
+        "My present to the Bsky community is a script-generated perfect binary tree of 4 levels-- with ornaments!"
+    )
+    parents = [root_post]
+    root_dict = {
+        "root": {
+            "cid": root_post.cid,
+            type_field: type_value,
+            "uri": root_post.uri,
+            "input_type": input_type
+        }
+    }
+    # create parent, add to parents, set root = this post
+    level = 2
+    while level <= 4:
+        newparents = []
+        for parent in parents:
+            parent_dict = {
+                'parent': {
+                    "cid": parent.cid,
+                    type_field: type_value,
+                    "uri": parent.uri,
+                    "input_type": input_type
+                }
+            }
+            reply_ref_var = {
+                "parent": parent_dict["parent"],
+                "root": root_dict["root"]
+            }
+            new_post = random.choice(decorations)
+            newparent = client.send_post(new_post, reply_to=reply_ref_var)
+            newparents.append(newparent)
+            newparent = client.send_post(new_post, reply_to=reply_ref_var)
+            newparents.append(newparent)
+        parents = newparents
+        level += 1
+    return True
 
 
 def threader(text):
@@ -97,6 +151,7 @@ if __name__ == '__main__':
     load_dotenv()
     bsky_url = os.getenv('BSKY_URL')
     bsky_pwd = os.getenv('BSKY_PWD')
+    '''
     for x in threader('this is a very long string'*20):
         print(x)
     for x in threader('this is a very long string'*1):
@@ -116,3 +171,5 @@ if __name__ == '__main__':
         print(f"{len(x)}: {x}")
     # do this with a new message than any previously posted message
     # poster(threader(longmsg))
+    '''
+    treer()
