@@ -56,7 +56,8 @@ def poster(text_list):
 
 def treer():
     decorations = [
-        'tinsel', 'candle', 'apple', 'finial', 'snowflake', 'icicle'
+        'tinsel', 'candle', 'apple', 'finial', 'snowflake', 'icicle',
+        'red light', 'white light', 'blue light'
     ]
     client = Client()
     client.login(bsky_url, bsky_pwd)
@@ -103,11 +104,12 @@ def treer():
 
 
 def threader(text):
+    total_messages = 0
+    message_character_limit = 300
     orig = text
     newtext = ''
-    message_character_limit = 300
     result = []
-    if len(text) > 300 or text.count('\n') > 0:
+    if len(text) > message_character_limit or text.count('\n') > 0:
         message_character_limit = message_character_limit - len(" 100/100") - 1
         total_messages = 0
         if text.count('\n') > 0:
