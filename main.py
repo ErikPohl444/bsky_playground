@@ -54,11 +54,11 @@ def poster(text_list):
     return retlist
 
 
-def treer():
+def treer(skeet):
     decorations = [
         'tinsel', 'candle', 'apple',
         'finial', 'snowflake', 'icicle',
-        'red light', 'white light', 'blue light'
+        'red lights', 'white lights', 'blue lights'
     ]
     client = Client()
     client.login(bsky_url, bsky_pwd)
@@ -66,7 +66,7 @@ def treer():
     type_value = "com.atproto.repo.strongRef"
     input_type = "dict"
     root_post = client.send_post(
-        "My present to the Bsky community is a script-generated perfect binary tree of 4 levels-- with ornaments!"
+        skeet
     )
     parents = [root_post]
     root_dict = {
@@ -175,4 +175,10 @@ if __name__ == '__main__':
     # do this with a new message than any previously posted message
     # poster(threader(longmsg))
     '''
-    treer()
+    skeet = ("My present to the Bsky community is a script-generated perfect binary tree of "
+             "4 levels-- with ornaments! You are at the top! Considered a Charlie Brown flag "
+             "which would have randomly dropped branches, but didn't do it.")
+    if len(skeet) > 300:
+        print(f"too long by {len(skeet)}-300")
+        exit(1)
+    treer(skeet)
