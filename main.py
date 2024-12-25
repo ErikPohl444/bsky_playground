@@ -56,7 +56,8 @@ def poster(text_list):
 
 def treer():
     decorations = [
-        'tinsel', 'candle', 'apple', 'finial', 'snowflake', 'icicle',
+        'tinsel', 'candle', 'apple',
+        'finial', 'snowflake', 'icicle',
         'red light', 'white light', 'blue light'
     ]
     client = Client()
