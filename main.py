@@ -150,7 +150,7 @@ def threader(text):
 
 
 if __name__ == '__main__':
-
+    # see .env_template for a template of a working .env file
     load_dotenv()
     bsky_url = os.getenv('BSKY_URL')
     bsky_pwd = os.getenv('BSKY_PWD')
