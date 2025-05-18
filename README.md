@@ -14,18 +14,37 @@ Hook up AI to make weird sentences and post them?
 
 If any
 
-
 ## Getting Started
 
-Instructions
+This repository contains Python utilities for interacting with the Bluesky platform using the atproto SDK. With these scripts, you can quickly experiment with posting, fetching, and managing content on Bluesky through programmatic access.
+
+---
 
 ## Prerequisites
 
-I'll provide prereqs here.
+Before installing, ensure you have the following installed on your system:
+
+- Python 3.8 or higher
+- pip (Python package installer)
+- A Bluesky account and any required app passwords or API credentials
+
+---
 
 ## Installing
 
-I will provide installation steps here.
+Clone the repository and install the dependencies:
+
+```bash
+git clone https://github.com/ErikPohl444/bsky_playground.git
+cd bsky_playground
+pip install -r requirements.txt
+```
+
+Alternatively, you can install the required packages directly:
+
+```bash
+pip install atproto
+```
 
 ## Running the tests
 
